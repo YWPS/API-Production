@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display</title>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
+    <style>
+        img{
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <img src="#" alt="" onerror="showimage()">
+</body>
+<script>
+    // Init Firebase
+    var firebaseConfig = {
+            apiKey: "AIzaSyAods_7xDsU7v5t2KE2PAZoW4ToMI9Rtlk",
+            authDomain: "imageupload-ywps.firebaseapp.com",
+            projectId: "imageupload-ywps",
+            storageBucket: "imageupload-ywps.appspot.com",
+            messagingSenderId: "40996881013",
+            appId: "1:40996881013:web:94551636ed12d6155c2e3c",
+            measurementId: "G-NPZGD6KC6Z"
+        };
+    
+    firebase.initializeApp(firebaseConfig);
+
+    // Get server embed
+    const ServerEmbedFull = '{{full}}';
+
+    function showimage() {
+        var FirebaseStorageRef = firebase.storage().ref();
+        var FirebaseSpaceRef = FirebaseStorageRef.child(ServerEmbedFull);
+        FirebaseSpaceRef.getDownloadURL().then(function(DownloadUrl) {
+            document.querySelector('img').src = DownloadUrl;
+    }).catch(function(error) {
+    })};
+</script>
+</html>

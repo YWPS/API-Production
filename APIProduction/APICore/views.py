@@ -1,12 +1,10 @@
 import json
 
-from django.core import serializers
 from django.http import JsonResponse
 from django.http.response import HttpResponse
 from django.utils.crypto import get_random_string
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate
+from django.shortcuts import render
 
 from .models import Image, Product
 
@@ -54,20 +52,25 @@ def GetProduct(request, hash):
 
 
 @csrf_exempt
-def CreateImage(request, name):
+def StoreImage(request, name):
     if request.method == "POST":
         # decode json
         jsonUnicode = request.body.decode('utf-8')
         jsonData = json.loads(jsonUnicode)
         # required fields
         extension = jsonData['extension']
-        Image.objects.update_or_create(name=name, extension=extension)
+        full = jsonData['full']
+        Image.objects.update_or_create(
+            name=name, extension=extension, full=full)
         # response
         return HttpResponse('', status=200)
+    return render(request, 'test.html', {
+        "name": name
+    })
 
 
-def GetImage(request, name):
+def DisplayImage(request, name):
     target = Image.objects.get(name=name)
-    return JsonResponse({
-        'extension': f'{target.extension}'
+    return render(request, 'display.html', {
+        "full": target.full
     })

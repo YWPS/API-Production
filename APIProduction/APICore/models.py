@@ -21,6 +21,7 @@ class Product(models.Model):
 class Image(models.Model):
     name = models.CharField(max_length=256)
     extension = models.CharField(max_length=64)
+    full = models.CharField(max_length=512)
 
     def __str__(self):
         return f"{self.name}.{self.extension}"
