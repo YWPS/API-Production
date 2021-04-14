@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload Testing</title>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="file" id="hiddenchoosefilebtn" hidden>
+        <div class="choosefile">
+            <button id="choosefilebtn">Choose File</button>
+        </div>
+        <div class="upload">
+            <button id="uploadbtn">Upload</button>
+        </div>
+        <div class="status">
+            <span id="statusspan"></span>
+        </div>
+    </div>
+    <script>
+        // Server Embed
+        const ServerEmbedName = "{{name}}"
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAods_7xDsU7v5t2KE2PAZoW4ToMI9Rtlk",
+            authDomain: "imageupload-ywps.firebaseapp.com",
+            projectId: "imageupload-ywps",
+            storageBucket: "imageupload-ywps.appspot.com",
+            messagingSenderId: "40996881013",
+            appId: "1:40996881013:web:94551636ed12d6155c2e3c",
+            measurementId: "G-NPZGD6KC6Z"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the storage service, which is used to create references in your storage bucket
+        const storage = firebase.storage();
+
+        // DOM Elements
+        const ChooseFileBtn = document.querySelector("#choosefilebtn");
+        const UploadBtn = document.querySelector("#uploadbtn");
+        const StatusSpan = document.querySelector("#statusspan");
+        const HiddenChooseFileBtn = document.querySelector("#hiddenchoosefilebtn");
+
+        // Make the file chooser better
+        ChooseFileBtn.addEventListener("click", () => HiddenChooseFileBtn.click());
+
+        HiddenChooseFileBtn.addEventListener("change", (e) => {
+            if (e.target.files[0] !== null) {
+                StatusSpan.innerHTML = "Choosen File";
+            }
+        });
+
+        // Get File Extension
+        function GetFilenameExtension(file){
+            return file.name.split('.').pop();
+        };
+
+        // Send Request to API
+        function SendRequestToAPI(){
+            var HiddenChooseFileBtnFile = HiddenChooseFileBtn.files[0];
+            
+            var SendRequestToAPIName = ServerEmbedName;
+            var SendRequestToAPIExtension = GetFilenameExtension(HiddenChooseFileBtnFile);
+            var SendRequestToAPIFull = `${SendRequestToAPIName}.${SendRequestToAPIExtension}`;
+            
+            var data = {
+                extension: SendRequestToAPIExtension,
+                full: SendRequestToAPIFull
+            }
+
+            fetch(`/image/store/${SendRequestToAPIName}`,
+            {
+                body: JSON.stringify(data), 
+                cache: 'no-cache', 
+                credentials: 'same-origin', 
+                headers: {
+                    'user-agent': 'Mozilla/4.0 MDN Example',
+                    'content-type': 'application/json'
+                },
+                method: 'POST', 
+                mode: 'same-origin',
+                redirect: 'follow', 
+                referrer: 'no-referrer', 
+            }).then().catch().then();
+        };
+
+        // Send Request to Firebase
+        function SendRequestToFirebase(){
+            var HiddenChooseFileBtnFile = HiddenChooseFileBtn.files[0];
+            
+            var SendRequestToFirebaseName = ServerEmbedName;
+            var SendRequestToFirebaseExtension = GetFilenameExtension(HiddenChooseFileBtnFile);
+            var SendRequestToFirebaseFull = `${SendRequestToFirebaseName}.${SendRequestToFirebaseExtension}`;
+
+            var StorageRef = storage.ref(SendRequestToFirebaseFull);
+            var StorageTask = StorageRef.put(HiddenChooseFileBtnFile);
+
+            StorageTask.on(
+                'state_changed',
+                function progress(snapshot) {
+                    StatusSpan.innerHTML = "Uploading"
+                },
+                function error(err) {
+                },
+                function complete() {
+                    StatusSpan.innerHTML = "Uploaded";
+                    setTimeout(() => { StatusSpan.innerHTML = ""; }, 2000);
+                });
+        };
+        
+
+        // Upload Button
+        UploadBtn.addEventListener('click', () => {
+            SendRequestToAPI();
+            SendRequestToFirebase();
+        })
+
+    </script>
+</body>
+</html>
