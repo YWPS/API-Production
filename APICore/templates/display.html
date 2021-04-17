@@ -36,9 +36,6 @@
     function showimage() {
         var FirebaseStorageRef = firebase.storage().ref();
         var FirebaseSpaceRef = FirebaseStorageRef.child(ServerEmbedFull);
-        FirebaseSpaceRef.getDownloadURL().then(function(DownloadUrl) {
-            document.querySelector('img').src = DownloadUrl;
-    }).catch(function(error) {
-    })};
+        FirebaseSpaceRef.getDownloadURL().then(() => {document.querySelector('img').src = DownloadUrl}).catch((error) => {})};
 </script>
 </html>
