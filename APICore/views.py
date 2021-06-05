@@ -52,7 +52,7 @@ def GetProduct(request, hash):
 
 
 @csrf_exempt
-def UploadImage(request, name):
+def UploadImage(request, hash):
     if request.method == "POST":
         # decode json
         jsonUnicode = request.body.decode('utf-8')
@@ -61,16 +61,16 @@ def UploadImage(request, name):
         extension = jsonData['extension']
         full = jsonData['full']
         Image.objects.update_or_create(
-            name=name, extension=extension, full=full)
+            hash=hash, extension=extension, full=full)
         # response
         return HttpResponse('', status=200)
     return render(request, 'upload.html', {
-        "name": name
+        "hash": hash
     })
 
 
-def DisplayImage(request, name):
-    target = Image.objects.get(name=name)
+def DisplayImage(request, hash):
+    target = Image.objects.get(hash=hash)
     return render(request, 'display.html', {
         "full": target.full
     })

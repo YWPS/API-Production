@@ -19,9 +19,9 @@ class Product(models.Model):
 
 
 class Image(models.Model):
-    name = models.CharField(max_length=256)
+    hash = models.CharField(max_length=45)
     extension = models.CharField(max_length=64)
     full = models.CharField(max_length=512)
 
     def __str__(self):
-        return f"{self.name}.{self.extension}"
+        return f"{self.hash}.{self.extension}"
