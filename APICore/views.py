@@ -32,7 +32,8 @@ def CreateProduct(request, name):
 
         # response
         return JsonResponse({
-            "url": f"https://api.qrserver.com/v1/create-qr-code/?data={hash}?size=1024*1024"
+            "url": f"https://api.qrserver.com/v1/create-qr-code/?data={hash}?size=1024*1024",
+            "hash": f"{hash}"
         })
 
 
