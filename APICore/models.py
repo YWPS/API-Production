@@ -24,4 +24,4 @@ class Image(models.Model):
     full = models.CharField(max_length=512)
 
     def __str__(self):
-        return f"{self.hash}.{self.extension}"
+        return self.full
