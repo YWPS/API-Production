@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ["DEBUG_VALUE"] == "True")
+DEBUG = False  # (os.environ["DEBUG_VALUE"] == "True")
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,6 +82,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Password validation
