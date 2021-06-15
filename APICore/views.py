@@ -26,7 +26,6 @@ def CreateProduct(request, name):
             user=user, name=name, hash=hash)
 
         for item in items:
-            print(f'\n\n{item["name"]}\n\n')
             Item.objects.update_or_create(
                 name=item["name"], code=item["code"], product=product[0])
         # response
