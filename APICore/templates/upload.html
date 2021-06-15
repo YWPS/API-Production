@@ -9,6 +9,9 @@
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
     <style>
+        img{
+            max-width: 50%;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -46,7 +49,10 @@
 
 <body>
     <div class="container">
-        <input type="file" id="hiddenchoosefilebtn" hidden>
+        <input accept="image/*" type="file" id="hiddenchoosefilebtn" hidden>
+        <div class="preview">
+            <img id="preview">
+        </div>
         <div class="choosefile">
             <button id="choosefilebtn">Choose File</button>
         </div>
@@ -84,15 +90,20 @@
         const UploadBtn = document.querySelector("#uploadbtn");
         const StatusSpan = document.querySelector("#statusspan");
         const HiddenChooseFileBtn = document.querySelector("#hiddenchoosefilebtn");
-
+        const ImagePreview = document.querySelector("#preview");
         // Make the file chooser better
         ChooseFileBtn.addEventListener("click", () => HiddenChooseFileBtn.click());
 
         HiddenChooseFileBtn.addEventListener("change", (e) => {
             if (e.target.files[0] !== null) {
+                ImagePreview.src = URL.createObjectURL(e.target.files[0]);
+                ImagePreview.onload = () => {
+                    URL.revokeObjectURL(output.src);// free memory
+                }
                 StatusSpan.innerHTML = "Choosen File";
-            }
-        });
+            };
+        }
+        );
 
         // Get File Extension
         function GetFilenameExtension(file) {
