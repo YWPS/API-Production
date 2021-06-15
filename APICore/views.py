@@ -6,7 +6,7 @@ from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 
-from .models import Image, Product
+from .models import Image, Product, Item
 
 
 @csrf_exempt
@@ -16,20 +16,19 @@ def CreateProduct(request, name):
         jsonUnicode = request.body.decode('utf-8')
         jsonData = json.loads(jsonUnicode)
         # required fields
-        code1code = jsonData["code1code"]
-        code2code = jsonData["code2code"]
-        code3code = jsonData["code3code"]
-        code1name = jsonData["code1name"]
-        code2name = jsonData["code2name"]
-        code3name = jsonData["code3name"]
+        items = jsonData["items"]
         username = jsonData["username"]
         # authenticate user
         user = username
         hash = get_random_string(length=40)
         # update or create model
-        Product.objects.update_or_create(
-            user=user, name=name, hash=hash, code1code=code1code, code2code=code2code, code3code=code3code, code1name=code1name, code2name=code2name, code3name=code3name)
+        product = Product.objects.update_or_create(
+            user=user, name=name, hash=hash)
 
+        for item in items:
+            print(f'\n\n{item["name"]}\n\n')
+            Item.objects.update_or_create(
+                name=item["name"], code=item["code"], product=product[0])
         # response
         return JsonResponse({
             "url": f"https://api.qrserver.com/v1/create-qr-code/?data={hash}?size=1024*1024",
@@ -40,15 +39,15 @@ def CreateProduct(request, name):
 @csrf_exempt
 def GetProduct(request, hash):
     target = Product.objects.get(hash=hash)
+    code = []
+    for item in target.items.all():
+        code.append({"name": item.name, "code": item.code})
+
     return JsonResponse({
-        'name': target.name,
-        "code1name": target.code1name,
-        "code1code": target.code1code,
-        "code2name": target.code2name,
-        "code2code": target.code2code,
-        "code3name": target.code3name,
-        "code3code": target.code3code,
-        'user': target.user
+        "name": target.name,
+        "user": target.user,
+        "code": code
+
     })
 
 
