@@ -69,7 +69,10 @@ def UploadImage(request, hash):
 
 
 def DisplayImage(request, hash):
-    target = Image.objects.get(hash=hash)
-    return render(request, 'display.html', {
-        "full": target.full
-    })
+    try:
+        target = Image.objects.get(hash=hash)
+        return render(request, 'display.html', {
+            "full": target.full
+        })
+    except:
+        return "<h1>No photo included</h1>"
