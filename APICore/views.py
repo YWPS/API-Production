@@ -34,7 +34,6 @@ def CreateProduct(request, name):
         })
 
 
-@csrf_exempt
 def GetProduct(request, hash):
     target = Product.objects.get(hash=hash)
     code = []
