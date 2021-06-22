@@ -1,7 +1,7 @@
 import json
 
 from django.http import JsonResponse
-from django.http.response import HttpResponse
+from django.http import HttpResponse
 from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
@@ -75,4 +75,4 @@ def DisplayImage(request, hash):
             "full": target.full
         })
     except:
-        return "<h1>No photo included</h1>"
+        return HttpResponse("<h1>No photo included</h1>")
