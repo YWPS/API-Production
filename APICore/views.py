@@ -75,4 +75,4 @@ def DisplayImage(request, hash):
             "full": target.full
         })
     except:
-        return HttpResponse("<h1>No photo included</h1>")
+        return HttpResponse("<h1>沒有上載圖片</h1>")
