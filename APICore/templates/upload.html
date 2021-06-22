@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload</title>
+    <title>上載圖片</title>
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
     <style>
@@ -100,7 +100,7 @@
                 ImagePreview.onload = () => {
                     URL.revokeObjectURL(output.src);// free memory
                 }
-                StatusSpan.innerHTML = "Choosen File";
+                StatusSpan.innerHTML = "已選擇圖片";
             };
         }
         );
@@ -153,12 +153,12 @@
             StorageTask.on(
                 'state_changed',
                 function progress(snapshot) {
-                    StatusSpan.innerHTML = "Uploading"
+                    StatusSpan.innerHTML = "上載中"
                 },
                 function error(err) {
                 },
                 function complete() {
-                    StatusSpan.innerHTML = "Uploaded";
+                    StatusSpan.innerHTML = "上載完成";
                     setTimeout(() => { StatusSpan.innerHTML = ""; }, 2000);
                 });
         };
