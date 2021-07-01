@@ -1,11 +1,13 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 
 
 class Product(models.Model):
     name = models.CharField(max_length=256)
-    hash = models.CharField(max_length=45)
+    hash = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
     user = models.CharField(max_length=256)
 
     def __str__(self):

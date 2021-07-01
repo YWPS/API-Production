@@ -19,14 +19,15 @@ def CreateProduct(request, name):
         username = jsonData["username"]
         # authenticate user
         user = username
-        hash = get_random_string(length=40)
         # update or create model
         product = Product.objects.update_or_create(
-            user=user, name=name, hash=hash)
+            user=user, name=name)
 
         for item in items:
             Item.objects.update_or_create(
                 name=item["name"], code=item["code"], product=product[0])
+
+        hash = str(product[0].hash)
         # response
         return JsonResponse({
             "url": f"https://api.qrserver.com/v1/create-qr-code/?data={hash}?size=1024*1024",
