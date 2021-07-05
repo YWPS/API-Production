@@ -1,7 +1,6 @@
 import json
 
 from django.http import JsonResponse, HttpResponse
-from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 
@@ -20,14 +19,14 @@ def CreateProduct(request, name):
         # authenticate user
         user = username
         # update or create model
-        product = Product.objects.update_or_create(
+        product = Product.objects.create(
             user=user, name=name)
 
         for item in items:
-            Item.objects.update_or_create(
-                name=item["name"], code=item["code"], product=product[0])
+            Item.objects.create(
+                name=item["name"], code=item["code"], product=product)
 
-        hash = str(product[0].hash)
+        hash = str(product.hash)
         # response
         return JsonResponse({
             "url": f"https://api.qrserver.com/v1/create-qr-code/?data={hash}?size=1024*1024",

@@ -7,7 +7,7 @@ import uuid
 class Product(models.Model):
     name = models.CharField(max_length=256)
     hash = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     user = models.CharField(max_length=256)
 
     def __str__(self):
