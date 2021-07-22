@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Image',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('hash', models.CharField(max_length=45)),
                 ('extension', models.CharField(max_length=64)),
                 ('full', models.CharField(max_length=512)),
@@ -26,17 +27,20 @@ class Migration(migrations.Migration):
             name='Product',
             fields=[
                 ('name', models.CharField(max_length=256)),
-                ('hash', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('hash', models.UUIDField(default=uuid.uuid4,
+                 editable=False, primary_key=True, serialize=False)),
                 ('user', models.CharField(max_length=256)),
             ],
         ),
         migrations.CreateModel(
             name='Item',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.CharField(max_length=256)),
                 ('name', models.CharField(max_length=256)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='APICore.product')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='items', to='APICore.product')),
             ],
         ),
     ]

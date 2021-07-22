@@ -30,18 +30,18 @@
 
         button {
             border: none;
-            background: linear-gradient(to left, #55e0a3, #80ffdb);
+            background: #55e0a3; /*linear-gradient(to left, #55e0a3, #80ffdb);*/
             color: white;
             padding: 7.5px 16px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 20px;
+            font-size: 40px;
             border-radius: 6px;
         }
 
         span {
-            font-size: 20px;
+            font-size: 40px;
             color: #55e0a3;
         }
     </style>
@@ -96,6 +96,7 @@
 
         HiddenChooseFileBtn.addEventListener("change", (e) => {
             if (e.target.files[0] !== null) {
+                ImagePreview.style = "display:inline;";
                 ImagePreview.src = URL.createObjectURL(e.target.files[0]);
                 ImagePreview.onload = () => {
                     URL.revokeObjectURL(output.src);// free memory
@@ -159,7 +160,9 @@
                 },
                 function complete() {
                     StatusSpan.innerHTML = "上載完成";
-                    setTimeout(() => { StatusSpan.innerHTML = ""; }, 10000);
+                    setTimeout(() => { StatusSpan.innerHTML = "";
+                    ImagePreview.style = "display:none;";
+                     }, 10000);
                 });
         };
 
