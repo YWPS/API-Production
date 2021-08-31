@@ -1,5 +1,7 @@
 # API-Production
 
+## The project is now closed and unmaintained.
+
 ## An API for App Inventor 2 written in Python
 
 This is the production repo of the API.
